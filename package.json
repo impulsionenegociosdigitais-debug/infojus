@@ -10,6 +10,7 @@
   "scripts": {
     "start": "node server.js",
     "demo": "ADVBOX_DEMO=1 node server.js",
-    "test": "node --test"
+    "test": "node --test",
+    "hash-password": "node scripts/hash-password.js"
   }
 }

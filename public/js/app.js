@@ -253,6 +253,10 @@ async function load(refresh = false) {
   $('#error').hidden = true;
   try {
     const res = await fetch(`/api/lawsuits${refresh ? '?refresh=1' : ''}`);
+    if (res.status === 401) {
+      window.location.href = '/login';
+      return;
+    }
     const body = await res.json();
     if (!res.ok) throw new Error(body.error || `Erro ${res.status}`);
     state.all = body.lawsuits;
@@ -271,5 +275,19 @@ async function load(refresh = false) {
   }
 }
 
+async function loadUser() {
+  try {
+    const res = await fetch('/api/me');
+    if (!res.ok) return;
+    const { user, authEnabled } = await res.json();
+    if (!authEnabled) return;
+    $('#user-name').textContent = user;
+    $('#logout').hidden = false;
+  } catch {
+    // Sem informação de usuário, o painel continua funcionando.
+  }
+}
+
 $('#refresh').addEventListener('click', () => load(true));
+loadUser();
 load();

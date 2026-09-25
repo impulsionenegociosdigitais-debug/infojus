@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar | Status dos Processos</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="login-page">
+  <main class="login-box">
+    <h1>Status dos processos</h1>
+    <p class="sub">Acesso restrito à equipe do escritório</p>
+    {{mensagem}}
+    <form method="post" action="/login">
+      <label>Usuário <input name="usuario" autocomplete="username" required autofocus></label>
+      <label>Senha <input name="senha" type="password" autocomplete="current-password" required></label>
+      <button type="submit" class="primary">Entrar</button>
+    </form>
+  </main>
+</body>
+</html>

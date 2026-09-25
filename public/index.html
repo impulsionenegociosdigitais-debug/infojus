@@ -15,11 +15,17 @@
         <span id="updated"></span>
       </p>
     </div>
-    <button id="refresh" type="button">Atualizar dados</button>
+    <div class="user-box">
+      <button id="refresh" type="button">Atualizar dados</button>
+      <form id="logout" method="post" action="/logout" hidden>
+        <span id="user-name"></span>
+        <button type="submit" class="link">Sair</button>
+      </form>
+    </div>
   </header>
 
   <div id="demo-note" class="note" hidden>
-    Exibindo dados de demonstração. Configure <code>ADVBOX_API_TOKEN</code> no arquivo <code>.env</code> para carregar os processos reais do ADVbox.
+    Exibindo dados de demonstração. Configure a variável <code>ADVBOX_API_TOKEN</code> para carregar os processos reais do ADVbox.
   </div>
   <div id="error" class="note error" role="alert" hidden></div>
 
