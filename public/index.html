@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Status dos Processos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Status dos processos</h1>
+      <p class="meta">
+        <span id="source" class="badge">Carregando…</span>
+        <span id="updated"></span>
+      </p>
+    </div>
+    <div class="user-box">
+      <button id="refresh" type="button">Atualizar dados</button>
+      <form id="logout" method="post" action="/logout" hidden>
+        <span id="user-name"></span>
+        <button type="submit" class="link">Sair</button>
+      </form>
+    </div>
+  </header>
+
+  <div id="demo-note" class="note" hidden>
+    Exibindo dados de demonstração. Configure a variável <code>ADVBOX_API_TOKEN</code> para carregar os processos reais do ADVbox.
+  </div>
+  <div id="error" class="note error" role="alert" hidden></div>
+
+  <form id="filters" class="filters" autocomplete="off">
+    <label>Responsável <select name="responsible"></select></label>
+    <label>Fase <select name="stage"></select></label>
+    <label>Tipo de ação <select name="type"></select></label>
+    <label>Grupo <select name="group"></select></label>
+    <label class="grow">Buscar <input name="search" type="search" placeholder="Nº do processo, pasta ou cliente"></label>
+    <button type="reset" class="link">Limpar filtros</button>
+  </form>
+
+  <section class="kpis" id="kpis" aria-label="Indicadores"></section>
+
+  <section class="grid">
+    <article class="card">
+      <h2>Processos ativos por fase</h2>
+      <p class="sub">Clique em uma barra para filtrar</p>
+      <div class="hbars" id="chart-stage" data-filter="stage"></div>
+    </article>
+    <article class="card">
+      <h2>Processos ativos por etapa</h2>
+      <p class="sub">As 10 etapas com mais processos</p>
+      <div class="hbars" id="chart-step"></div>
+    </article>
+    <article class="card">
+      <h2>Carteira ativa por responsável</h2>
+      <p class="sub">Clique em uma barra para filtrar</p>
+      <div class="hbars" id="chart-responsible" data-filter="responsible"></div>
+    </article>
+    <article class="card">
+      <h2>Processos ativos por tipo de ação</h2>
+      <p class="sub">Clique em uma barra para filtrar</p>
+      <div class="hbars" id="chart-type" data-filter="type"></div>
+    </article>
+    <article class="card">
+      <h2>Tempo de tramitação dos ativos</h2>
+      <p class="sub">Contado da data do processo (ou do cadastro) até hoje</p>
+      <div class="hbars" id="chart-age"></div>
+    </article>
+    <article class="card wide">
+      <h2>Entradas e encerramentos por mês</h2>
+      <p class="sub">Últimos 12 meses</p>
+      <div class="legend" id="flow-legend">
+        <span><i class="swatch s1"></i>Entradas</span>
+        <span><i class="swatch s2"></i>Encerramentos</span>
+      </div>
+      <div class="columns" id="chart-flow"></div>
+    </article>
+  </section>
+
+  <section class="card table-card">
+    <div class="table-head">
+      <h2>Processos <span id="table-count" class="muted"></span></h2>
+      <label>Situação
+        <select id="situation">
+          <option value="active">Ativos</option>
+          <option value="closed">Encerrados</option>
+          <option value="">Todos</option>
+        </select>
+      </label>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="processNumber">Processo</th>
+            <th data-sort="customers">Cliente</th>
+            <th data-sort="type">Tipo</th>
+            <th data-sort="stage">Fase</th>
+            <th data-sort="step">Etapa</th>
+            <th data-sort="responsible">Responsável</th>
+            <th data-sort="age" class="num">Dias</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="pager">
+      <button type="button" id="prev" class="link">Anterior</button>
+      <span id="page-info"></span>
+      <button type="button" id="next" class="link">Próxima</button>
+    </div>
+  </section>
+
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

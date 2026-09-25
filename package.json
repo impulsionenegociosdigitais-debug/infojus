@@ -1,0 +1,16 @@
+{
+  "name": "infojus",
+  "version": "0.1.0",
+  "description": "Dashboard de status dos processos do ADVbox",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "demo": "ADVBOX_DEMO=1 node server.js",
+    "test": "node --test",
+    "hash-password": "node scripts/hash-password.js"
+  }
+}
