@@ -39,26 +39,26 @@ Para não gravar a senha em texto, gere a versão criptografada com `npm run has
 
 - A sessão dura 12 horas. Depois disso é preciso entrar de novo.
 - Depois de 8 tentativas erradas, o endereço de origem fica bloqueado por 15 minutos.
-- `SESSION_SECRET` deve ser um texto aleatório longo. Sem ele, todos são desconectados quando o servidor reinicia.
+- `SESSION_SECRET` é opcional. Sem ela, a chave das sessões é derivada da lista de usuários.
 - Sem nenhum usuário cadastrado, o painel só aceita acesso do próprio computador. Se `HOST` apontar para fora dele, o servidor se recusa a iniciar.
 
-### Publicar para a equipe (Render)
+### Publicar para a equipe (Vercel)
 
-O repositório já traz o arquivo `render.yaml` com a configuração pronta.
+O repositório já traz o `vercel.json` com a configuração pronta. Na Vercel, todas as páginas e dados passam pela função `api/index.js`, que exige login antes de mostrar qualquer coisa.
 
-1. Crie uma conta em https://render.com entrando com a conta do GitHub.
-2. No painel do Render, clique em **New** e depois em **Blueprint**. Escolha o repositório `infojus`.
-3. O Render vai pedir dois valores:
-   - `ADVBOX_API_TOKEN`: o token de API do ADVbox.
-   - `DASHBOARD_USERS`: os usuários e senhas, como no exemplo acima.
-   O `SESSION_SECRET` é gerado automaticamente.
-4. Clique em **Apply**. Em alguns minutos o Render mostra o endereço do painel, no formato `https://infojus-dashboard.onrender.com`.
+1. Crie uma conta em https://vercel.com entrando com a conta do GitHub (o plano Hobby é gratuito).
+2. Clique em **Add New** e depois em **Project**. Importe o repositório `infojus`.
+3. Em **Environment Variables**, cadastre:
+   - `DASHBOARD_USERS`: os usuários e senhas, como no exemplo acima. Obrigatório.
+   - `ADVBOX_API_TOKEN`: o token de API do ADVbox. Enquanto não existir, deixe sem cadastrar e o painel mostra dados fictícios.
+   - `SESSION_SECRET`: opcional. Sem ela, a chave das sessões é derivada da lista de usuários, e todos precisam entrar de novo quando a lista muda.
+4. Clique em **Deploy**. Ao terminar, a Vercel mostra o endereço, no formato `https://infojus-xxxx.vercel.app`.
 
-Para incluir ou remover pessoas, altere `DASHBOARD_USERS` em **Environment** no Render. O serviço reinicia sozinho.
+Para incluir ou remover pessoas, ou para colocar o token do ADVbox depois, altere as variáveis em **Settings > Environment Variables** e faça um novo deploy em **Deployments > Redeploy**.
 
-O `render.yaml` usa o plano gratuito. Nesse plano o serviço entra em repouso após 15 minutos sem acesso, e o primeiro acesso depois disso leva cerca de um minuto para carregar. Para evitar essa espera, troque o plano do serviço para um pago nas configurações do Render.
+Na Vercel, o limite de tentativas de login vale por instância da função. Ele dificulta a tentativa de adivinhar senhas, mas não substitui senhas fortes.
 
-Também há um `Dockerfile` para publicar em qualquer outro provedor que rode contêineres. Nesse caso, defina `DASHBOARD_USERS`, `SESSION_SECRET`, `ADVBOX_API_TOKEN` e `TRUST_PROXY=1` quando houver HTTPS na frente do serviço.
+Também há um `Dockerfile` para publicar em provedores que rodam contêineres. Nesse caso, defina `DASHBOARD_USERS`, `ADVBOX_API_TOKEN` e `TRUST_PROXY=1` quando houver HTTPS na frente do serviço.
 
 ### Como os dados são interpretados
 
